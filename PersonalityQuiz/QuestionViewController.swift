@@ -9,6 +9,39 @@
 import UIKit
 
 class QuestionViewController: UIViewController {
+    var questionIndex = 0
+    var questions: [Question] = [
+        Question(text: "Which food do you like the most?",
+                 type: .single,
+                 answear: [
+                    Answear(text: "Steak", type: .dog),
+                    Answear(text: "Fish", type: .cat),
+                    Answear(text: "Carrotts", type: .rabbit),
+                    Answear(text: "Corn", type: .turtle)
+            ]),
+        
+        Question(text: "Which activities do you enjoy?",
+                 type: .multiple,
+                 answear: [
+                    Answear(text: "Swimming", type: .turtle),
+                    Answear(text: "Sleeping", type: .cat),
+                    Answear(text: "Cuddling", type: .rabbit),
+                    Answear(text: "Eating", type: .dog)
+            ]),
+        
+        Question(text: "How much do you enjoy car rides?",
+                 type: .ranged,
+                 answear: [
+                    
+                    Answear(text: "I barely notice them", type: .turtle),
+                    Answear(text: "I dislike them", type: .cat),
+                    Answear(text: "I get a little nervous", type: .rabbit),
+                    Answear(text: "I love them", type: .dog)
+            
+            ])
+]
+    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
