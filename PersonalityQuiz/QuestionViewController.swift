@@ -9,6 +9,47 @@
 import UIKit
 
 class QuestionViewController: UIViewController {
+    
+    var answearChosen: [Answear] = []
+    
+    
+    @IBOutlet weak var singleStackView: UIStackView!
+    @IBOutlet weak var multipleStackView: UIStackView!
+    @IBOutlet weak var rangeStackView: UIStackView!
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var questionLabel: UILabel!
+    
+    // single stack view
+    @IBOutlet weak var buttonLabel1: UIButton!
+    @IBOutlet weak var buttonLabel2: UIButton!
+    @IBOutlet weak var buttonLabel3: UIButton!
+    @IBOutlet weak var buttonLabel4: UIButton!
+    
+    
+    // multiple stack view
+    @IBOutlet weak var label1: UILabel!
+    @IBOutlet weak var swichLabel1: UISwitch!
+    
+    
+    @IBOutlet weak var label2: UILabel!
+    @IBOutlet weak var swichLabel2: UISwitch!
+    
+    
+    @IBOutlet weak var label3: UILabel!
+    @IBOutlet weak var swichLabel3: UISwitch!
+    
+    
+    @IBOutlet weak var label4: UILabel!
+    @IBOutlet weak var swichLabel4: UISwitch!
+    
+    // range stack view
+    @IBOutlet weak var rangeLabel1: UILabel!
+    @IBOutlet weak var rangeLabel2: UILabel!
+    @IBOutlet weak var horizontalSliderLabel: UISlider!
+    
+    
+    
+    
     var questionIndex = 0
     var questions: [Question] = [
         Question(text: "Which food do you like the most?",
@@ -41,14 +82,94 @@ class QuestionViewController: UIViewController {
             ])
 ]
     
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+      updateUI()
+    
     }
-
+    
+    func updateUI() {
+        singleStackView.isHidden = true
+        multipleStackView.isHidden = true
+        rangeStackView.isHidden = true
+        
+        let currentQuestion = questions[questionIndex]
+        let currentAnswears = currentQuestion.answear
+        
+        let totalProgress = Float(questionIndex)/Float(questions.count)
+        
+        navigationItem.title = "Question #\(questionIndex + 1)"
+    
+        
+        questionLabel.text = currentQuestion.text
+        progressView.setProgress(totalProgress, animated: true)
+        
+        switch currentQuestion.type {
+        case .single:
+            updateSingleStack(using: currentAnswears)
+        case .multiple:
+            updateMultipleStack(using: currentAnswears)
+        case .ranged :
+            updateRangeStack(using: currentAnswears)
+        }
+        
+    }
+    
+    
+    func updateSingleStack(using answears: [Answear]) {
+        singleStackView.isHidden = false
+        buttonLabel1.setTitle(answears[0].text, for: .normal)
+        buttonLabel2.setTitle(answears[1].text, for: .normal)
+        buttonLabel3.setTitle(answears[2].text, for: .normal)
+        buttonLabel4.setTitle(answears[3].text, for: .normal)
+    }
+    
+    func updateMultipleStack(using answears: [Answear]) {
+        multipleStackView.isHidden = false
+        label1.text = answears[0].text
+        label2.text = answears[1].text
+        label3.text = answears[2].text
+        label4.text = answears[3].text
+    }
+    
+    func updateRangeStack(using answears: [Answear])  {
+        rangeStackView.isHidden = false
+        rangeLabel1.text = answears.first?.text
+        rangeLabel2.text = answears.last?.text
+    }
+    
+    
+    func nextQuestion() {
+        questionIndex += 1
+        if questionIndex < questions.count {
+            updateUI()
+        } else {
+            performSegue(withIdentifier: "resultSegue", sender: nil)
+        }
+    }
+    
+    @IBAction func singleAnswearButtonPressed(_ sender: UIButton) {
+    
+    let currentAnswears = questions[questionIndex].answear
+    
+        switch sender {
+        case buttonLabel1:
+            answearChosen.append(currentAnswears[0])
+        case buttonLabel2:
+            answearChosen.append(currentAnswears[1])
+        case buttonLabel3:
+            answearChosen.append(currentAnswears[2])
+        case buttonLabel4:
+            answearChosen.append(currentAnswears[3])
+        default:
+            break
+        }
+    nextQuestion()
+    
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
