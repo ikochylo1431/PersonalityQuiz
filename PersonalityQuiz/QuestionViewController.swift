@@ -127,6 +127,10 @@ class QuestionViewController: UIViewController {
     
     func updateMultipleStack(using answears: [Answear]) {
         multipleStackView.isHidden = false
+        swichLabel1.isOn = false
+        swichLabel2.isOn = false
+        swichLabel3.isOn = false
+        swichLabel4.isOn = false
         label1.text = answears[0].text
         label2.text = answears[1].text
         label3.text = answears[2].text
@@ -167,6 +171,30 @@ class QuestionViewController: UIViewController {
         }
     nextQuestion()
     
+    }
+    
+    @IBAction func multipleAnswearButtonPressed() {
+        let currentAnswear = questions[questionIndex].answear
+        
+        if swichLabel1.isOn {
+            answearChosen.append(currentAnswear[0])
+        }
+        
+        if swichLabel2.isOn {
+            answearChosen.append(currentAnswear[1])
+        }
+        
+        if swichLabel3.isOn {
+            answearChosen.append(currentAnswear[2])
+        }
+        
+        if swichLabel4.isOn {
+            answearChosen.append(currentAnswear[3])
+        }
+        nextQuestion()
+    
+        
+        
     }
     
     
